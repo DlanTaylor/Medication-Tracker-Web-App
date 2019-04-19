@@ -76,7 +76,7 @@ if (!isset($_SESSION['email'])) {
                                 ?>
                                 </div>
                             <div class="form-group">
-                                <input id="createBtn" type="submit" class="btn btn-primary mt-4" value="Create">
+                                <input id="createBtn" type="submit" class="btn btn-primary mt-4" value="Add">
                             </div>
                         </div>
                         <div id="view" class="mt-4">
