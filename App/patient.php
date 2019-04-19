@@ -26,7 +26,7 @@
                         <nav class="nav nav-masthead justify-content-center">
                             <a class="nav-link" href="index.php">Home</a>
                             <a class="nav-link" href="calendar.php">Calendar</a>
-                            <a class="nav-link" href="#">Prescriptions</a>
+                            <a class="nav-link" href="prescriptions.php">Prescriptions</a>
                             <a class="nav-link" href="appointments.php">Appointments</a>
                             <?php
                             if(!isset($_SESSION['email'])) {

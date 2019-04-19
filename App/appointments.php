@@ -30,7 +30,7 @@
                     <nav class="nav nav-masthead justify-content-center">
                         <a class="nav-link" href="index.php">Home</a>
                         <a class="nav-link" href="calendar.php">Calendar</a>
-                        <a class="nav-link" href="#">Prescriptions</a>
+                        <a class="nav-link" href="prescriptions.php">Prescriptions</a>
                         <a class="nav-link active" href="#">Appointments</a>
                         <a class='nav-link' href='patient.php'>Profile</a>
                         <a class='nav-link' id='logout' href='#'>Logout</a>
@@ -64,7 +64,7 @@
                             <textarea class="form-control" id="content" placeholder="Content"></textarea>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" id="doctor" placeholder="Content">
+                            <select class="custom-select" id="doctor" placeholder="Content">
                                 <option selected value disabled>Please select your doctor</option>
                                 <?php
                                     $sql = mysqli_query($db, "SELECT lastName FROM Users WHERE isDoc = 1");
