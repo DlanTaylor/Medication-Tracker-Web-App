@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include("php/config.php");
+session_start();
+include("php/config.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@
         <link href="css/profile.css" rel="stylesheet">
     </head>
 
-<!--    <body class="text-center" style="background-color: #D8E9F4;">-->
+    <!--    <body class="text-center" style="background-color: #D8E9F4;">-->
     <body class="text-center" style="background-image: url(images/bg.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
         <div class="cover-container d-flex w-100 h-100 pt-3 mx-auto flex-column">
             <div class="cover-container masthead">
@@ -33,9 +33,9 @@
                                 echo "<a class='nav-link' href='login.html'>Login</a>
                               <a class='nav-link' href='register.html'>Register</a>";
                             } else {
-                                
+
                                 $email = $_SESSION['email'];
-                                
+
                                 // If a doctor
                                 if($_SESSION['isDoc']) {
                                     echo "<a class='nav-link active' href='doctor.php'>Profile</a>";
@@ -49,16 +49,16 @@
                     </div>
                 </header> <!-- end header -->
             </div>
-            
+
             <div class="row p-3">
                 <?php
-                    if(!isset($_SESSION['email'])) {
-                        echo "<h4 class='d-flex'> Patient Name </h4>";
-                    } else {
-                        echo "<h4 class='d-flex'>";
-                        echo $_SESSION['fullName']; 
-                        echo "</h4>";
-                    }
+                if(!isset($_SESSION['email'])) {
+                    echo "<h4 class='d-flex'> Patient Name </h4>";
+                } else {
+                    echo "<h4 class='d-flex'>";
+                    echo $_SESSION['fullName']; 
+                    echo "</h4>";
+                }
                 ?>
             </div>
             <div class="row">
@@ -75,25 +75,25 @@
                             <p>Total medications:</p>
                             <p><!-- Total number of medications should be accessed from medication database --></p>
                         </li>
-                        
+
                         <?php
-                            if(isset($_SESSION['email'])) {
-                                
-                                $sql = "SELECT title FROM Calendar WHERE email = '$email' AND category LIKE 'Appointment%' ORDER BY start DESC"; 
-                                $result = mysqli_query($db, $sql);
-                                
-                                $counter = 0;
-                                while($results = mysqli_fetch_object($result)) {
-                                    $counter = $counter + 1;
-                                }
-                                
-                                echo "
+                        if(isset($_SESSION['email'])) {
+
+                            $sql = "SELECT title FROM Calendar WHERE email = '$email' AND category LIKE 'Appointment%' ORDER BY start DESC"; 
+                            $result = mysqli_query($db, $sql);
+
+                            $counter = 0;
+                            while($results = mysqli_fetch_object($result)) {
+                                $counter = $counter + 1;
+                            }
+
+                            echo "
                                     <li class='list-group-item text-muted'>
                                         <p>Appointments: 
                                             <span class='badge badge-light'>
                                 ";
-                                echo $counter;
-                                echo "
+                            echo $counter;
+                            echo "
                                         </span>
                                         </p>
                                         <p>
@@ -101,13 +101,19 @@
                                         </p>
                                     </li>
                                 ";
-                            }
+                        }
                         ?>
-                        
+                        <li class='list-group-item text-muted' id="medications">
+                            <p><a class="nav-link active" href="#"><u>Medications</u></a></p>
+                        </li>
+                        <li class='list-group-item text-muted' id="email_password">
+                            <p><a class="nav-link" href="#"><u>Change email/password</u></a></p>
+                        </li>
+
                     </ul>
                 </div> <!-- end column 1 -->
                 <div class="col-sm-9">
-                    <div class="card w-200">
+                    <div class="card w-200" id="meds">
                         <div class="card-header">
                             <h4 class="d-flex">Your Medications</h4>
                         </div>
@@ -129,11 +135,70 @@
                             </li>
                         </ul>
                     </div> <!-- end medication list -->
+                    <div id="empass">
+                        <form class="form">
+                            <div class="card text-center text-dark text-primary w-responsive">
+                                <div class="card-header">
+                                    <h1 class="h3 font-weight-normal">Change Email/Password</h1>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <p>Current email</p>
+                                        <input
+                                               type="email"
+                                               id="email"
+                                               class="form-control rounded"
+                                               placeholder="Current email address"
+                                               required
+                                               autofocus
+                                               />
+                                        <p>New Email</p>
+                                        <input
+                                               type="email"
+                                               id="newEmail"
+                                               class="form-control rounded"
+                                               placeholder="New email address"
+                                               required
+                                               />
+                                        <div class="form-group">
+                                            <button id="submit_email" class="btn btn-info btn-primary" type="button">
+                                                Change email
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p>Current password</p>
+                                        <input
+                                               type="password"
+                                               id="password"
+                                               class="form-control rounded"
+                                               placeholder="Current password"
+                                               required
+                                               autofocus
+                                               />
+                                        <p>New password</p>
+                                        <input
+                                               type="password"
+                                               id="newPassword"
+                                               class="form-control rounded"
+                                               placeholder="New password"
+                                               required
+                                               />
+                                        <div class="form-group">
+                                            <button id="submit_password" class="btn btn-info btn-primary" type="button">
+                                                Change password
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div> <!-- end column 2 -->
             </div>
-            
+
             <?php
-                $db->close();
+            $db->close();
             ?>
 
             <footer class="mastfoot mt-auto">
@@ -150,6 +215,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="js/index.js"></script>
+        <script src="js/profile.js"></script>
     </body>
 
 </html>

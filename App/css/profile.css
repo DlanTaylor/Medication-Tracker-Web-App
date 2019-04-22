@@ -102,6 +102,9 @@ body {
   font-weight: 700;
 }
 
+#empass, #medications{
+    display: none;
+}
 
 /*
  * Footer
