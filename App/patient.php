@@ -1,6 +1,11 @@
 <?php
-session_start();
-include("php/config.php");
+    include("php/config.php");
+    if (!isset($_SESSION)) {session_start();}
+
+    if (!isset($_SESSION['email'])) {
+        header('Location: login.html');
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -68,26 +73,40 @@ include("php/config.php");
                             <img class="card-img-top" src="images/person.png" alt="Patient User Image">
                         </li>
                         <li class="list-group-item text-muted">
-                            <p>Your doctor:</p>
-                            <p><!-- Doctor name --></p>
+                            <p>Total Prescriptions:</p>
+                            <p><?php
+                                    $sql = "SELECT prescription FROM Prescription WHERE patient = '$email'"; 
+                                    $result = mysqli_query($db, $sql);
+                                    
+                                    $counter = 0;
+                                    while($results = mysqli_fetch_object($result)) {
+                                        $counter = $counter + 1;
+                                    }
+                                    
+                                    echo "
+                                                <span class='badge badge-light'>
+                                    ";
+                                    echo $counter;
+                                    echo "
+                                            </span>
+                                            <p>
+                                                <a role='button' class='btn btn-info pt-1' href='prescriptions.php'>View</a>
+                                            </p>
+                                    ";
+                            ?>
+                            </p>
                         </li>
-                        <li class="list-group-item text-muted">
-                            <p>Total medications:</p>
-                            <p><!-- Total number of medications should be accessed from medication database --></p>
-                        </li>
-
+                        
                         <?php
-                        if(isset($_SESSION['email'])) {
-
-                            $sql = "SELECT title FROM Calendar WHERE email = '$email' AND category LIKE 'Appointment%' ORDER BY start DESC"; 
-                            $result = mysqli_query($db, $sql);
-
-                            $counter = 0;
-                            while($results = mysqli_fetch_object($result)) {
-                                $counter = $counter + 1;
-                            }
-
-                            echo "
+                                $sql = "SELECT title FROM Calendar WHERE email = '$email' AND category LIKE 'Appointment%' ORDER BY start DESC"; 
+                                $result = mysqli_query($db, $sql);
+                                
+                                $counter = 0;
+                                while($results = mysqli_fetch_object($result)) {
+                                    $counter = $counter + 1;
+                                }
+                                
+                                echo "
                                     <li class='list-group-item text-muted'>
                                         <p>Appointments: 
                                             <span class='badge badge-light'>
@@ -101,7 +120,6 @@ include("php/config.php");
                                         </p>
                                     </li>
                                 ";
-                        }
                         ?>
                         <li class='list-group-item text-muted' id="medications">
                             <p><a class="nav-link active" href="#"><u>Medications</u></a></p>
@@ -118,19 +136,10 @@ include("php/config.php");
                             <h4 class="d-flex">Your Medications</h4>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <!-- Medications should be accessed from medication database -->
-                            <li class="list-group-item">
-                                <div>
-                                    <h5 class="d-flex my-1 mb-2">Medication 1</h5>
-                                    <p class="text-muted text-left">Date Issued</p>
-                                    <p class="text-muted text-left">Prescribed by doctor</p>
-                                    <p class="text-muted text-left">Brief Description/Directions</p>
-                                </div>
-                            </li>
                             <li class="list-group-item">
                                 <p class="text-muted text-left">Need to update your prescriptions? Don't worry!</p>
                                 <p class="text-muted text-left">
-                                    <a role="button" class="btn btn-info" href="#">Add or edit your medications here!</a>
+                                    <a role="button" class="btn btn-info" href="prescriptions.php">Add or edit your prescriptions here!</a>
                                 </p>
                             </li>
                         </ul>
