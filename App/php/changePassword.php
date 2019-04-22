@@ -2,6 +2,13 @@
 include("config.php");
 session_start();
 
+// All parameters were not set
+    if(!(isset($_POST['password']) && isset($_POST['newPassword']))) {
+        http_response_code(400); // Bad request http status
+        $db->close();
+        exit();
+    }
+
 $email = $_SESSION['email'];
 $currentPassword = mysqli_real_escape_string($db, $_POST['password']);
 $newPassword = mysqli_real_escape_string($db, $_POST['newPassword']);

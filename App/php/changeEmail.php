@@ -2,6 +2,13 @@
 include("config.php");
 session_start();
 
+// All parameters were not set
+    if(!(isset($_POST['email']) && isset($_POST['newEmail']))) {
+        http_response_code(400); // Bad request http status
+        $db->close();
+        exit();
+    }
+
 $currentEmail = strtolower(mysqli_real_escape_string($db, $_POST['email']));
 $newEmail = strtolower(mysqli_real_escape_string($db, $_POST['newEmail']));
 
