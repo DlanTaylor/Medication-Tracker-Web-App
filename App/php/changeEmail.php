@@ -16,9 +16,7 @@ $sql = "UPDATE Users SET email = '$newEmail' WHERE email = '$currentEmail'";
 
 if($db->query($sql)){
     $_SESSION['email'] = $newEmail;
-    //Update medication and calendar tables to reflect email change.
-    $sql = "UPDATE Medication SET email = '$newEmail' WHERE email = '$currentEmail'";
-    $db->query($sql);
+    //Update calendar table to reflect email change.
     $sql = "UPDATE Calendar SET email = '$newEmail' WHERE email = '$currentEmail'";
     $db->query($sql);
 }
